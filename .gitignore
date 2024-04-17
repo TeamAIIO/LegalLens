@@ -178,6 +178,10 @@ cython_debug/
 .history
 .ionide
 
+# precedent data
+data_preprocessing/*.csv
+
 # local db
 faiss_db/
 chroma_db/
+
