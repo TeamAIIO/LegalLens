@@ -13,9 +13,12 @@ http://localhost:9000/
 
 # requirements.txt 사용 전 설치 목록
 ```
-pip install fastapi
+# requirements 사용 전 설치 목록
+```
+spip install fastapi
 pip install "uvicorn[standard]"
 pip install jinja2 python-multipart
 pip install pymysql
 pip install sqlalchemy
+```
 ```
