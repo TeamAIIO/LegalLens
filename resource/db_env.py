@@ -1,0 +1,5 @@
+# host = "localhost"
+host = "192.168.0.181"
+user = "dev1"
+password = "1111"
+db_name = "legal_db"
