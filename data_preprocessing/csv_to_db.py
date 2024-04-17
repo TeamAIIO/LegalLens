@@ -1,5 +1,10 @@
 # 초기 db 설정파일입니다.
 
+# resource 상대경로 설정
+import sys
+import os
+sys.path.insert(0, os.path.abspath('../'))
+
 import pandas as pd
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text, Date
 from sqlalchemy.dialects.mysql import LONGTEXT
@@ -26,6 +31,7 @@ precedent_table = Table('precedent', metadata,
     Column('Summary', Text, comment='판결요지'),
     Column('ReferenceArticle', Text, comment='참조조문'),
     Column('ReferenceCase', Text, comment='참조판례'),
+    Column('Target', Text, comment='통합텍스트')
 )
 
 # 기존 테이블 삭제 후 새 테이블 생성
@@ -47,7 +53,6 @@ df = df.rename(columns={
     '판결요지': 'Summary',
     '참조조문': 'ReferenceArticle',
     '참조판례': 'ReferenceCase',
-    '전문': 'FullText'
 })
 df = df.where(pd.notna(df), None)
 
