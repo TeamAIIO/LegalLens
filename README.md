@@ -1,6 +1,8 @@
 # LegalLens
 Ai-x 4기 io팀 첫번째 미니 프로젝트입니다.
 
+# 서비스 파이프라인
+![pipeline](./readme_images/image.png)
 
 # app 구동
 ```
