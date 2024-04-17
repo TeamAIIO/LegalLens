@@ -19,6 +19,7 @@
         <textarea id="question" cols="30" rows="10"></textarea>
         <button onclick="callLaywer('/inputTestTest', 'question', 'answer')">전송</button>
         <button onclick="callLaywer('/testYou', 'question', 'answer')">신유선테스트</button>
+        <button onclick="callLaywer('/testHye', 'question', 'tempAnswer')">손지혜테스트</button>
     </div>
     <div>
         <span>답변</span>
@@ -26,6 +27,13 @@
         <div id="answerArea">
             <span id="answer"></span>
         </div>
+    </div>
+    <hr/>
+    <div>
+        <pre id="tempAnswer"></pre>
+        <span>temp 데이터로 만들어야 하는 답변 영역</span><br/>
+        <span>판례요약, 사건번호, 선고일자, 실제판례</span><br/>
+        <div></div>
     </div>
     <!-- <div>
         <span>답변(임시)</span>
