@@ -33,3 +33,5 @@ class Precedent(Base):
     ReferenceArticle = Column(Text)
     # 참조판례
     ReferenceCase = Column(Text)
+    # Matter + Summary 통합 텍스트
+    Target = Column(Text)

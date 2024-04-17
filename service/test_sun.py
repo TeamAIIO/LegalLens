@@ -1,3 +1,4 @@
+from fastapi import Depends
 from resource.models import Test1
 from transformers import AutoTokenizer, AutoModel
 
@@ -34,7 +35,7 @@ def cos_sim(A, B) :
     return dot(A, B) / (norm(A)*norm(B))
 
 
-def get_precedent(db : Session = Depends(get_db)) :
-    # db 에서 판례 가져오기
-    precedent_files = db.query(Test1).all()
-    precednet_info = [{'precedent_num' : idx+1, 'title' : Test1.title, 'content' : Test1.content} for idx, Test1 in enumerate(precedent_files)]
+# def get_precedent(db : Session = Depends(get_db)) :
+#     # db 에서 판례 가져오기
+#     precedent_files = db.query(Test1).all()
+#     precednet_info = [{'precedent_num' : idx+1, 'title' : Test1.title, 'content' : Test1.content} for idx, Test1 in enumerate(precedent_files)]
