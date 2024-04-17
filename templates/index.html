@@ -4,8 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LegalLens</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="/static/js/common.js"></script>
 </head>
 <body>
-    시작시작
+
+    <h1>LegalLens</h1>
+
+    <div>
+        <span>질문</span>
+        <br/>
+        <textarea id="question" cols="30" rows="10"></textarea>
+        <button onclick="callLaywer('/inputTestTest', 'question', 'answer')">전송</button>
+        <button onclick="callLaywer('/testYou', 'question', 'answer')">신유선테스트</button>
+    </div>
+    <div>
+        <span>답변</span>
+        <br/>
+        <div id="answerArea">
+            <span id="answer"></span>
+        </div>
+    </div>
+    <!-- <div>
+        <span>답변(임시)</span>
+        <br/>
+        <div id="answerTempArea">
+            <span id="answerTemp"></span>
+        </div>
+    </div> -->
 </body>
 </html>

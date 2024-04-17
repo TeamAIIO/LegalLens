@@ -3,6 +3,7 @@ from fastapi import Depends, FastAPI, Form, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from resource.base_models import Question
 from resource.database import engine, SessionLocal
 from sqlalchemy.orm import Session
 from resource.models import Test1
@@ -11,7 +12,7 @@ from resource import models
 from service.test_hun import testData as testHun
 from service.test_hye import testData as testHye
 from service.test_song import testData as testSong
-from service.test_sun import testData as testSun
+from service.test_sun import testData as testYou
 from service.test_young import testData as testYoung
 
 app = FastAPI()
@@ -20,8 +21,13 @@ abs_path = os.path.dirname(os.path.realpath(__file__))
 templates = Jinja2Templates(directory=f"{abs_path}/templates")
 app.mount("/static", StaticFiles(directory=f"{abs_path}/static"))
 
-# model binding
+# db model binding(sqlalchemy)
 models.Base.metadata.create_all(bind=engine)
+
+# task model binding
+# question_answerer = pipeline("question-answering", model="stevhliu/my_awesome_qa_model")
+# translator = pipeline("translation", model="stevhliu/my_awesome_opus_books_model")
+
 
 # DB 연결
 def get_db():
@@ -41,6 +47,11 @@ def goHome(request: Request):
 def getData(request: Request, db: Session = Depends(get_db)):
     list = db.query(Test1).all()
     print(list)
+    return list
+
+@app.post("/inputTestTest")
+def getData(input: Question, db: Session = Depends(get_db)):
+    list = db.query(Test1).all()
     return list
 
 # song : 한송훈
@@ -67,10 +78,10 @@ def getData(input: str, db: Session = Depends(get_db)):
     output = testHye(input, db)
     return output
 
-# sun : 신유선
-@app.get("/testSun")
-def getData(input: str, db: Session = Depends(get_db)):
-    output = testSun(input, db)
+# you : 신유선
+@app.post("/testYou")
+def getData(input: Question, db: Session = Depends(get_db)):
+    output = testYou(input, db)
     return output
 
 
