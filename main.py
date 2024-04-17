@@ -49,6 +49,11 @@ def getData(request: Request, db: Session = Depends(get_db)):
     print(list)
     return list
 
+@app.post("/inputTestTest")
+def getData(input: Question, db: Session = Depends(get_db)):
+    list = db.query(Test1).all()
+    return list
+
 # song : 한송훈
 @app.get("/testSong")
 def getData(input: str, db: Session = Depends(get_db)):
