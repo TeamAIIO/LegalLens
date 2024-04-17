@@ -3,6 +3,7 @@ from fastapi import Depends, FastAPI, Form, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from resource.base_models import Question
 from resource.database import engine, SessionLocal
 from sqlalchemy.orm import Session
 from resource.models import Test1
@@ -20,7 +21,7 @@ abs_path = os.path.dirname(os.path.realpath(__file__))
 templates = Jinja2Templates(directory=f"{abs_path}/templates")
 app.mount("/static", StaticFiles(directory=f"{abs_path}/static"))
 
-# db model binding
+# db model binding(sqlalchemy)
 models.Base.metadata.create_all(bind=engine)
 
 # task model binding
@@ -73,8 +74,8 @@ def getData(input: str, db: Session = Depends(get_db)):
     return output
 
 # sun : 신유선
-@app.get("/testSun")
-def getData(input: str, db: Session = Depends(get_db)):
+@app.post("/testSun")
+def getData(input: Question, db: Session = Depends(get_db)):
     output = testSun(input, db)
     return output
 
