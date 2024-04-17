@@ -12,7 +12,7 @@ from resource import models
 from service.test_hun import testData as testHun
 from service.test_hye import testData as testHye
 from service.test_song import testData as testSong
-from service.test_sun import testData as testSun
+from service.test_sun import testData as testYou
 from service.test_young import testData as testYoung
 
 app = FastAPI()
@@ -78,10 +78,10 @@ def getData(input: str, db: Session = Depends(get_db)):
     output = testHye(input, db)
     return output
 
-# sun : 신유선
-@app.post("/testSun")
+# you : 신유선
+@app.post("/testYou")
 def getData(input: Question, db: Session = Depends(get_db)):
-    output = testSun(input, db)
+    output = testYou(input, db)
     return output
 
 
