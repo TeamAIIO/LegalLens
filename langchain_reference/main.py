@@ -51,8 +51,6 @@ def get_retriever_text(message, which_db):
     
     rag_prompt = ChatPromptTemplate.from_template(template)
 
-    # rag_chain = {'context':retriever, 'question': message} | rag_prompt | llm | StrOutputParser()
-    # return rag_chain.run(message)
     document_chain = create_stuff_documents_chain(llm, rag_prompt)
     retriver_chain = create_retrieval_chain(retriever, document_chain)
     response = retriver_chain.invoke({"input": message}) 
