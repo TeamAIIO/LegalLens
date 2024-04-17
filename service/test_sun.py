@@ -1,2 +1,7 @@
+from resource.models import Test1
+
+
 def testData(input, db):
-    return "zz"
+    list = db.query(Test1).all()
+    print(list)
+    return list

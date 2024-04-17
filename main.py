@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 
 from resource.database import engine, SessionLocal
 from sqlalchemy.orm import Session
-# from resource.models import Test1
+from resource.models import Test1
 from resource import models
 
 from service.test_hun import testData as testHun
@@ -39,45 +39,45 @@ def goHome(request: Request):
 # test
 @app.get("/test")
 def getData(request: Request, db: Session = Depends(get_db)):
-    list = db.query(models.Test1).all()
+    list = db.query(Test1).all()
     print(list)
     return list
 
 # song : 한송훈
 @app.get("/testSong")
-def getData(input: str = Form(), db: Session = Depends(get_db)):
+def getData(input: str, db: Session = Depends(get_db)):
     output = testSong(input, db)
     return output
 
 # young : 박선영
 @app.get("/testYoung")
-def getData(input: str = Form(), db: Session = Depends(get_db)):
+def getData(input: str, db: Session = Depends(get_db)):
     output = testYoung(input, db)
     return output
 
 # hun : 조영훈
 @app.get("/testHun")
-def getData(input: str = Form(), db: Session = Depends(get_db)):
+def getData(input: str, db: Session = Depends(get_db)):
     output = testHun(input, db)
     return output
 
 # hye : 손지혜
 @app.get("/testHye")
-def getData(input: str = Form(), db: Session = Depends(get_db)):
+def getData(input: str, db: Session = Depends(get_db)):
     output = testHye(input, db)
     return output
 
 # sun : 신유선
 @app.get("/testSun")
-def getData(input: str = Form(), db: Session = Depends(get_db)):
+def getData(input: str, db: Session = Depends(get_db)):
     output = testSun(input, db)
     return output
 
 
-# TODO : /service 하위에 서비스 만들고 끌어오기
-# mysql에서 데이터 읽기 + 비교
-# chroma에서 데이터 비교
-# 유사성 높은 답변으로 프롬프팅 돌리기
+# TODO
+# 1) mysql에서 데이터 읽기 + 비교 : 전체
+# 2) chroma에서 데이터 비교 : 팀장님
+# 3) 유사성 높은 답변으로 프롬프팅 돌리기
 
 
 
