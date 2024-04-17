@@ -34,5 +34,9 @@ def input_output_function(context: str):
     input_sentence = input('문장을 입력하세요: ')
     return chain.invoke({"input": input_sentence})
 
-## 추후 input_output_function(db_relevent_get(input_text, db)) 
-print(input_output_function('자료는 없습니다.'))
+def testData(input, db):
+    return
+
+if __name__ == "__main__":
+    ## 추후 input_output_function(db_relevent_get(input_text, db)) 
+    print(input_output_function('자료는 없습니다.'))
