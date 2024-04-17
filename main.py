@@ -1,8 +1,18 @@
 import os
-from fastapi import FastAPI, Request
+from fastapi import Depends, FastAPI, Form, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from resource.database import engine, SessionLocal
+from sqlalchemy.orm import Session
+# from resource.models import Test1
+from resource import models
+
+from service.test_hun import testData as testHun
+from service.test_hye import testData as testHye
+from service.test_song import testData as testSong
+from service.test_sun import testData as testSun
+from service.test_young import testData as testYoung
 
 app = FastAPI()
 
@@ -10,10 +20,58 @@ abs_path = os.path.dirname(os.path.realpath(__file__))
 templates = Jinja2Templates(directory=f"{abs_path}/templates")
 app.mount("/static", StaticFiles(directory=f"{abs_path}/static"))
 
+# model binding
+models.Base.metadata.create_all(bind=engine)
 
+# DB 연결
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+# index
 @app.get("/")
 def goHome(request: Request):
     return templates.TemplateResponse("index.html", {'request': request})
+
+# test
+@app.get("/test")
+def getData(request: Request, db: Session = Depends(get_db)):
+    list = db.query(models.Test1).all()
+    print(list)
+    return list
+
+# song : 한송훈
+@app.get("/testSong")
+def getData(input: str = Form(), db: Session = Depends(get_db)):
+    output = testSong(input, db)
+    return output
+
+# young : 박선영
+@app.get("/testYoung")
+def getData(input: str = Form(), db: Session = Depends(get_db)):
+    output = testYoung(input, db)
+    return output
+
+# hun : 조영훈
+@app.get("/testHun")
+def getData(input: str = Form(), db: Session = Depends(get_db)):
+    output = testHun(input, db)
+    return output
+
+# hye : 손지혜
+@app.get("/testHye")
+def getData(input: str = Form(), db: Session = Depends(get_db)):
+    output = testHye(input, db)
+    return output
+
+# sun : 신유선
+@app.get("/testSun")
+def getData(input: str = Form(), db: Session = Depends(get_db)):
+    output = testSun(input, db)
+    return output
 
 
 # TODO : /service 하위에 서비스 만들고 끌어오기
