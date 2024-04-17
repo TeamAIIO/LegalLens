@@ -42,6 +42,11 @@ function getAnswer(url, contentId) {
     });
 }
 
+// 답변 영역 가공
+function makeDetailAnswer() {
+    // TODO
+}
+
 // loading
 function loading(isStart) {
     const bodyEl = document.getElementsByTagName('body')[0]

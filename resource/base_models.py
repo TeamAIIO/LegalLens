@@ -1,18 +1,19 @@
+from typing import Optional
 from pydantic import BaseModel
 
 class Question(BaseModel):
-    input: str | None
+    input: Optional[str] = None
 
 class Answer(BaseModel):
     # 질문
-    question: str | None
+    question: str | None = None
     # 검색된 판례
-    originAnswer: str
+    originAnswer: str | None = None
     # 판례 요약
-    shortAnswer: str
+    shortAnswer: str | None = None
     # 판례 정보 일련 번호
-    serialNumber: int
+    serialNumber: int | None = None
     # 사건 번호
-    caseNumber: int
+    caseNumber: str | None = None
     # 선고 일자
-    date: str
+    date: int | None = None
