@@ -17,4 +17,14 @@ pip install "uvicorn[standard]"
 pip install jinja2 python-multipart
 pip install pymysql
 pip install sqlalchemy
+pip install jq
+pip install langchain_openai
+pip install langchain
+pip install langchain-chroma
+pip install langchain-core 
+pip install langchain-community
+pip install transformers==4.37.1
+pip install sentence-transformers
+pip install faiss-gpu
+pip install faiss
 ```
