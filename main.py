@@ -20,8 +20,13 @@ abs_path = os.path.dirname(os.path.realpath(__file__))
 templates = Jinja2Templates(directory=f"{abs_path}/templates")
 app.mount("/static", StaticFiles(directory=f"{abs_path}/static"))
 
-# model binding
+# db model binding
 models.Base.metadata.create_all(bind=engine)
+
+# task model binding
+# question_answerer = pipeline("question-answering", model="stevhliu/my_awesome_qa_model")
+# translator = pipeline("translation", model="stevhliu/my_awesome_opus_books_model")
+
 
 # DB 연결
 def get_db():
