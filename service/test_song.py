@@ -14,34 +14,30 @@ from numpy.linalg import norm
 import time
 from multiprocessing import Pool
 
-tokenizer = AutoTokenizer.from_pretrained('jhgan/ko-sroberta-multitask')
+# tokenizer = AutoTokenizer.from_pretrained('jhgan/ko-sroberta-multitask')
 # model = AutoModel.from_pretrained('jhgan/ko-sroberta-multitask')
-model = SentenceTransformer("jhgan/ko-sroberta-multitask")
+# model = SentenceTransformer("jhgan/ko-sroberta-multitask")
+# model = SentenceTransformer("all-distilroberta-v1")
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
 load_dotenv()
 
 def testData(input, db):
-    
-    li = db.query(Precedent.Target, Precedent.CaseSerialNumber).limit(1000).all()
-    embedded_target = []
-    case_serial_numbers = []
     start = time.time()
-    for each_target in li:
-        embedding_each_target = model.encode(str(each_target[0]), convert_to_tensor=True)
-        embedded_target.append(embedding_each_target)
-        case_serial_numbers.append(each_target[1])
-    
+    li = db.query(Precedent.Target, Precedent.CaseSerialNumber).limit(1000).all()
+
+    targets = [str(each_target[0]) for each_target in li]
+    case_serial_numbers = [each_target[1] for each_target in li]
+    embedded_target = model.encode(targets, convert_to_tensor=True)
     input_embedding = model.encode(input, convert_to_tensor=True)
-    end = time.time()
-    embedded_target_tensor = torch.stack(embedded_target)
     
-    cosine_scores = util.cos_sim(input_embedding, embedded_target_tensor)
+    cosine_scores = util.cos_sim(input_embedding, embedded_target)
     
     max_score, max_index = torch.max(cosine_scores, dim=1)
     max_score = max_score.item()
     max_index = max_index.item()
     max_case_serial_number = case_serial_numbers[max_index]
-    
+    end = time.time()
     print(f"time : {end-start}")
     return {
         "max_score": max_score,
