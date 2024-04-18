@@ -8,15 +8,18 @@ from service.langchain import getShortAnswer
 
 
 # model 선언
-model = SentenceTransformer('jhgan/ko-sroberta-multitask')
+# model = SentenceTransformer('jhgan/ko-sroberta-multitask') # 느림
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
 
 def setUserData(input_text, db):
-    # similarity 체크
+    # 판례 모음 DB 조회
     # TODO : 속도가 너무 느려서 일단 최신데이터 기준 1000개 대상 조회로 진행, 다른 조치로 해결되면 limit 풀어줄 것
-    # null 인 데이터는 제외
-    total_list = db.query(Precedent.CaseSerialNumber, Precedent.Target).filter(Precedent.Target.isnot(None)).order_by(Precedent.JudgmentDate.desc()).limit(1000).all()
+    # FIXME : 테스트중이라 100개로 변경. commit 전에 다시 풀어줘야 함.
+    total_list = db.query(Precedent.CaseSerialNumber, Precedent.Target).filter(Precedent.Target.isnot(None)).order_by(Precedent.JudgmentDate.desc()).limit(100).all()
     target_text_list = [precedent.Target for precedent in total_list]
+
+    # similarity 체크
     max_index = searchHighestSimilarityIndex(input_text, target_text_list)
 
     # 유사도 가장 높은 답변 정보 가져오기
@@ -38,6 +41,8 @@ def setUserData(input_text, db):
     answer.serialNumber = first_data.CaseSerialNumber
     answer.caseNumber = first_data.CaseNumber
     answer.date = first_data.JudgmentDate
+    answer.referenceArticle = first_data.ReferenceArticle
+    answer.referenceCase = first_data.ReferenceCase
 
     return answer
 
