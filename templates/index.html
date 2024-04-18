@@ -1,46 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LegalLens</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-    <script src="/static/js/common.js"></script>
-</head>
-<body>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LegalLens</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/css/style.css">
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+        <script src="/static/js/common.js"></script>
+    </head>
 
-    <h1>LegalLens</h1>
+    <body>
+        
+        <div class="centered-border">
 
-    <div>
-        <span>질문</span>
-        <br/>
-        <textarea id="question" cols="30" rows="10"></textarea>
-        <button onclick="callLaywer('/getMyAnswer', 'question', 'answer')">전송</button>
-        <button onclick="callLaywer('/testYou', 'question', 'answer')">신유선테스트</button>
-        <button onclick="callLaywer('/testHye', 'question', 'tempAnswer')">손지혜테스트</button>
-    </div>
-    <div>
-        <span>답변</span>
-        <br/>
-        <div id="answerArea">
-            <span id="answer"></span>
+            <h1>
+                <center>
+                    LegalLens
+                    <small class="text-body-secondary">I.O team</small>
+                </center>
+            </h1>
+            <hr/>
+            <div>
+                <br/>
+                <h3>
+                    <center>Question</span>
+                </h>
+                <br/>
+                <textarea rows="20" id="questionArea" style="width: 100%; padding: 8px; max-height: 200px; margin-top: 10px; font-size: small;" placeholder="궁금한 법률 지식을 물어보세요!"></textarea>
+                <br/>
+                <br/>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" type="button" onclick="callLaywer('/getMyAnswer', 'questionArea', 'answerArea')">
+                        답변 생성하기
+                    </button>
+                </div>
+                <div id="answerArea" style="display:none;">
+                    <br/>
+                    <span>Answer</span>
+                    <br/>
+                    <div class="card border-warning-mb-3" style="margin-top: 10px; ">
+                        <div class="card-header">[답변]</div>
+                        <div class="card-body">
+                            <p class="card-text" id="shortArea"></p>
+                        </div>
+                    </div>
+                    <div class="card border-warning mb-3">
+                        <div class="card-header">[참조 조문 및 판례]</div>
+                        <div class="card-body">
+                            <p class="card-text" id="referenceArea"></p>
+                            <button class="btn btn-info" id="moreBtn">관련 정보 더보기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </div>
-    <hr/>
-    <div>
-        <pre id="tempAnswer"></pre>
-        <span>temp 데이터로 만들어야 하는 답변 영역</span><br/>
-        <span>판례요약, 사건번호, 선고일자, 실제판례</span><br/>
-        <div></div>
-    </div>
-    <!-- <div>
-        <span>답변(임시)</span>
-        <br/>
-        <div id="answerTempArea">
-            <span id="answerTemp"></span>
-        </div>
-    </div> -->
-</body>
+
+    </body>
 </html>
