@@ -2,7 +2,7 @@
 Ai-x 4기 io팀 첫번째 미니 프로젝트입니다.
 
 # 서비스 파이프라인
-![pipeline](./readme_images/image.png)
+![pipeline](./readme_images/image0.png)
 
 # Vector DB 구성
 | idx | CaseSerialNumber | CaseName | CaseNumber | JudgementDate | JudgementType | CourtName | VerdictType | Matter | Summary | ReferenceArticle | ReferenceCase | Target |
@@ -18,6 +18,13 @@ CaseSerialNumber(=판례정보 일련번호)가 PK를 담당합니다.
 Target 컬럼은 DB의 context 분석을 위해 새로 생성해 준 컬럼이며, Matter 컬럼과 Summary 컬럼을 Concat 하여 사용합니다.
 <br/>
 NULL 값은 공백으로 처리을 하여 Target Text를 생성하였으며, 판시사항과 판결요지가 없는 경우 참고할 판례가 없음을 명시하였습니다.
+
+<br/>
+
+# Vector DB with RAG
+![alt text](./readme_images/image.png)
+![alt text](./readme_images/image-1.png)
+![alt text](./readme_images/image-2.png)
 
 # app 구동
 python app_start.py
