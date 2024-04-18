@@ -1,47 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LegalLens</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
+    />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
     <script src="/static/js/common.js"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
 </head>
+<style>
+    body {
+    background-color: LightSkyblue;
+    }
+</style>
 <body>
-
-    <h1>LegalLens</h1>
-
-    <div>
-        <span>질문</span>
-        <br/>
-        <textarea id="question" cols="30" rows="10"></textarea>
-        <button onclick="callLaywer('/getMyAnswer', 'question', 'answer')">전송</button>
-        <button onclick="callLaywer('/inputTestTest', 'question', 'answer')">임시테스트</button>
-        <button onclick="callLaywer('/testYou', 'question', 'answer')">신유선테스트</button>
-        <button onclick="callLaywer('/testHye', 'question', 'tempAnswer')">손지혜테스트</button>
-    </div>
-    <div>
-        <span>답변</span>
-        <br/>
-        <div id="answerArea">
-            <span id="answer"></span>
-        </div>
-    </div>
+    <hr/>
+    <h1>
+    <center>
+        LegalLens
+        <small class="text-body-secondary">I.O team</small>
+    </center>
+    </h1>
     <hr/>
     <div>
-        <pre id="tempAnswer"></pre>
-        <span>temp 데이터로 만들어야 하는 답변 영역</span><br/>
-        <span>판례요약, 사건번호, 선고일자, 실제판례</span><br/>
-        <div></div>
-    </div>
-    <!-- <div>
-        <span>답변(임시)</span>
+        <br />
+    <span><h3><center>Question</span></h>
+    <br />
+    <textarea cols="70" rows="5" name="question"
+    oninput='this.style.height = ""; this.style.height = this.scrollHeight + "px"'
+    style="resize: none; padding: 8px; margin: 20px; max-height: 100px;"
+    placeholder="궁금한 법률 지식을 물어보세요!"></textarea>
+
+    <br/>
+    <br/>
+    <div class="d-grid gap-2">
+        <button
+        class="btn btn-primary btn-sm"
+        type="button"
+        onclick="callLaywer('/inputTestTest', 'question', 'tempAnswer')">Send
+        </button>
         <br/>
-        <div id="answerTempArea">
-            <span id="answerTemp"></span>
-        </div>
-    </div> -->
+        <hr />
+</div>
+<div>
+        <span>Answer</span><br/><br/>
+            <div class="card border-warning-mb-3">
+            <div class="card-header">판례요약 및 GPT 답변 공간</div>
+            <div class="card-body">
+            <p class="card-text">
+                button과 JS를 이용해 버튼을 클릭하면 원하는 내용이 나오도록 하는 기능을 구현하는 코드이다 !
+                onclick시 showContent 함수가 실행되는데,
+               A버튼 B버튼은 같은 기능을 하지만 각각 눌렀을 때 보여줄 요소가 다르기 때문에
+                함수의 매개 변수를 이용해 이를 구분해준다.
+              숨기고 보여줄 요소인 div를 우선 display:none;으로 숨긴 뒤
+               버튼을 눌렀을 때 받은 매개변수가 A라면(A button onclick) A 내용을 display:block;
+               받은 매개변수가 B라면(B button onclick) B 내용을 display:block;로 작동시켜서 보이도록 해준다.
+                
+                 {{tempOutput.shortAnswer}}</p>
+            </div>
+            </div>
+
+            <div class="card border-warning mb-3">
+                <div class="card-header">[참조 조문 및 판례]</div>
+                <div class="card-body">
+                    <p class="card-text">
+                        조문 : ddddd {{ReferenceArticle}}<br/>
+                        판례 : ddddd {{ReferenceCase}}</p>
+            <button class="btn btn-info" onclick="showContent({Matter})">관련 정보 더보기</button>
+            </div>
+            </div>
+</div>
+
+
 </body>
 </html>

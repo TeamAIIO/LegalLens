@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from resource.models import Test1
 from resource import models
 
+from service.sims_mysql import setUserData
 from service.test_hun import testData as testHun
 from service.test_hye import tempData, testData as testHye
 from service.test_song import testData as testSong
@@ -41,7 +42,7 @@ def goHome(request: Request):
 @app.post("/getMyAnswer")
 def getData(question: Question, db: Session = Depends(get_db)):
     # TODO : 최종 코드 sims_mysql.py로 옮겨서 변경. 임시로 testYou 사용.
-    output = testYou(question.input, db)
+    output = setUserData(question.input, db)
     return output
 
 @app.post("/getChromaAnswer")
@@ -59,7 +60,8 @@ def getData(question: Question, db: Session = Depends(get_db)):
 # test page
 @app.get("/test")
 def goTestPage(request: Request):
-    return templates.TemplateResponse("test.html", {'request': request})
+    tempOutput = tempData()
+    return templates.TemplateResponse("test.html", {'request': request, 'tempOutput': tempOutput})
 
 # db test
 @app.post("/inputTestTest")

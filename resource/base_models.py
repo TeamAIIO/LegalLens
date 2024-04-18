@@ -17,3 +17,7 @@ class Answer(BaseModel):
     caseNumber: str | None = None
     # 선고 일자
     date: int | None = None
+    # 참조 조문
+    referenceArticle: str | None = None
+    # 참조 판례
+    referenceCase: str | None = None
