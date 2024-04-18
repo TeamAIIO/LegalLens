@@ -45,6 +45,7 @@ pip install langchain-core
 pip install langchain-community
 pip install transformers==4.37.1
 pip install sentence-transformers
+pip install -U langchain-community faiss-cpu langchain-openai tiktoken
 ```
 <br/>
 
@@ -53,7 +54,6 @@ pip install sentence-transformers
 
 ```
 pip install jq
-pip insatll -U langchain-community faiss-cpu langchain-openai tiktoken
 pip install faiss-gpu
 pip install faiss
 ```
