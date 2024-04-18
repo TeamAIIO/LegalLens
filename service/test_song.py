@@ -1,18 +1,49 @@
 import os
 
 from dotenv import load_dotenv
+import torch
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
+from sentence_transformers import SentenceTransformer, util
+from resource.models import Test1, Precedent
+from transformers import AutoTokenizer, AutoModel
+from numpy import dot
+from numpy.linalg import norm
+import time
+from multiprocessing import Pool
+
+# tokenizer = AutoTokenizer.from_pretrained('jhgan/ko-sroberta-multitask')
+# model = AutoModel.from_pretrained('jhgan/ko-sroberta-multitask')
+# model = SentenceTransformer("jhgan/ko-sroberta-multitask")
+# model = SentenceTransformer("all-distilroberta-v1")
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
 load_dotenv()
-## env 파일 생성 
-os.environ['OPENAI_API_KEY'] = os.getenv("OPENAI_API_KEY")
 
-## 입력 문장을 받은 후 DB와 비교 후 유사 문장 return 함수
-def db_relevent_get(input: str, db) -> str:
-    pass
+def testData(input, db):
+    start = time.time()
+    li = db.query(Precedent.Target, Precedent.CaseSerialNumber).limit(1000).all()
+
+    targets = [str(each_target[0]) for each_target in li]
+    case_serial_numbers = [each_target[1] for each_target in li]
+    embedded_target = model.encode(targets, convert_to_tensor=True)
+    input_embedding = model.encode(input, convert_to_tensor=True)
+    
+    cosine_scores = util.cos_sim(input_embedding, embedded_target)
+    
+    max_score, max_index = torch.max(cosine_scores, dim=1)
+    max_score = max_score.item()
+    max_index = max_index.item()
+    max_case_serial_number = case_serial_numbers[max_index]
+    end = time.time()
+    print(f"time : {end-start}")
+    return {
+        "max_score": max_score,
+        "max_index": max_index,
+        "max_case_serial_number": max_case_serial_number
+    }
 
 def input_output_function(context: str):
     template = f"""
@@ -33,9 +64,6 @@ def input_output_function(context: str):
     chain = prompt | llm | StrOutputParser()
     input_sentence = input('문장을 입력하세요: ')
     return chain.invoke({"input": input_sentence})
-
-def testData(input, db):
-    return
 
 if __name__ == "__main__":
     ## 추후 input_output_function(db_relevent_get(input_text, db)) 
