@@ -12,7 +12,7 @@ from resource import models
 from service.test_hun import testData as testHun
 from service.test_hye import tempData, testData as testHye
 from service.test_song import testData as testSong
-from service.test_you import testData as testYou
+from service.test_you import setUserData as testYou
 from service.test_young import testData as testYoung
 
 app = FastAPI()
@@ -24,11 +24,6 @@ app.mount("/static", StaticFiles(directory=f"{abs_path}/static"))
 # db model binding(sqlalchemy)
 models.Base.metadata.create_all(bind=engine)
 
-# task model binding
-# question_answerer = pipeline("question-answering", model="stevhliu/my_awesome_qa_model")
-# translator = pipeline("translation", model="stevhliu/my_awesome_opus_books_model")
-
-
 # DB 연결
 def get_db():
     db = SessionLocal()
@@ -37,18 +32,36 @@ def get_db():
     finally:
         db.close()
 
-# index
+# index page
 @app.get("/")
 def goHome(request: Request):
     return templates.TemplateResponse("index.html", {'request': request})
 
-# test
-@app.get("/test")
-def getData(request: Request, db: Session = Depends(get_db)):
-    list = db.query(Test1).all()
-    print(list)
-    return list
 
+@app.post("/getMyAnswer")
+def getData(question: Question, db: Session = Depends(get_db)):
+    # TODO : 최종 코드 sims_mysql.py로 옮겨서 변경. 임시로 testYou 사용.
+    output = testYou(question.input, db)
+    return output
+
+@app.post("/getChromaAnswer")
+def getData(question: Question, db: Session = Depends(get_db)):
+    # TODO : make_chroma 코드 sims_chroma.py로 옮겨서 로직 구현 필요
+    return {}
+
+
+# test----------------------------------
+# TODO
+# 1) mysql에서 데이터 읽기 + 비교 : 전체
+# 2) chroma에서 데이터 비교 : 팀장님
+# 3) 유사성 높은 답변으로 프롬프팅 돌리기
+
+# test page
+@app.get("/test")
+def goTestPage(request: Request):
+    return templates.TemplateResponse("test.html", {'request': request})
+
+# db test
 @app.post("/inputTestTest")
 def getData(input: Question, db: Session = Depends(get_db)):
     list = db.query(Test1).all()
@@ -86,12 +99,7 @@ def getData(input: Question, db: Session = Depends(get_db)):
 def getData(question: Question, db: Session = Depends(get_db)):
     output = testYou(question.input, db)
     return output
-
-
-# TODO
-# 1) mysql에서 데이터 읽기 + 비교 : 전체
-# 2) chroma에서 데이터 비교 : 팀장님
-# 3) 유사성 높은 답변으로 프롬프팅 돌리기
+# test----------------------------------
 
 
 
