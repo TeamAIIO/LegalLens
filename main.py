@@ -75,7 +75,7 @@ def getData(input: str, db: Session = Depends(get_db)):
 
 # young : 박선영
 @app.get("/testYoung")
-def getData(input: str, db: Session = Depends(get_db)):
+def getData(input: Question, db: Session = Depends(get_db)):
     output = testYoung(input, db)
     return output
 
