@@ -59,7 +59,8 @@ def getData(question: Question, db: Session = Depends(get_db)):
 # test page
 @app.get("/test")
 def goTestPage(request: Request):
-    return templates.TemplateResponse("test.html", {'request': request})
+    tempOutput = tempData()
+    return templates.TemplateResponse("test.html", {'request': request, 'tempOutput': tempOutput})
 
 # db test
 @app.post("/inputTestTest")
