@@ -41,7 +41,6 @@ def goHome(request: Request):
 
 @app.post("/getMyAnswer")
 def getData(question: Question, db: Session = Depends(get_db)):
-    # TODO : 최종 코드 sims_mysql.py로 옮겨서 변경. 임시로 testYou 사용.
     output = setUserData(question.input, db)
     return output
 

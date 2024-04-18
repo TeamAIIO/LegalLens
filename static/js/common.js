@@ -3,14 +3,18 @@
 function callLaywer(url, contentId, answerId) {
     loading(true)
 
-    // 답변 영역 내용 삭제하고 시작
     const answerEl = document.getElementById(answerId)
-    answerEl.replaceChildren()
+    // 답변 영역 내용 삭제하고 시작
+    // answerEl.replaceChildren()
+    // 답변 영역 닫고 시작
+    answerEl.style.display = 'none'
 
     getAnswer(url, contentId).then(res => {
         console.log('res!!!!', res)
         // answerEl.innerHTML = 'JSON:' + JSON.stringify(res)
-        makeDetailAnswer(res, answerId)
+        // 구조 생성하기에 복잡해서 일단 hidden
+        // makeDetailAnswer(res, answerId)
+        mappingDetailAnswer(res, answerId)
         loading(false)
     }).catch((error) => {
         alert('답변 중 오류가 발생했습니다.')
@@ -92,6 +96,47 @@ function makeDetailAnswer(answerData, answerId) {
     container.appendChild(childDiv)
 }
 
+// element에 data mapping(id 하드코딩)
+function mappingDetailAnswer(answerData, answerId) {
+    const container = document.getElementById(answerId)
+    const moreEl = document.getElementById('moreBtn')
+
+    // childArea 삭제
+    summaryDiv?.remove()
+    // click event 삭제
+    moreEl.removeEventListener('click', controlChildContent)
+
+    // 판례요약
+    const shortEl = document.getElementById('shortArea')
+    shortEl.textContent = answerData.shortAnswer
+    
+    // 참조 조문
+    const referenceEl = document.getElementById('referenceArea')
+    referenceEl.innerHTML = '조문) ' + replaceBlankText(answerData.referenceArticle) + '<br/>' + '판례) ' + replaceBlankText(answerData.referenceCase)
+
+    // 더보기 이벤트 연결
+    
+    moreEl.addEventListener('click', controlChildContent);
+    
+    // 더보기 하단 영역
+    const childDiv = document.createElement('div')
+    childDiv.id = 'moreArea'
+    childDiv.style.display = 'none'
+    const small = document.createElement('small')
+    small.textContent = answerData.originAnswer
+    summaryDiv = childDiv;
+    childDiv.appendChild(document.createTextNode('- 참고 판시사항'))
+    childDiv.appendChild(document.createTextNode(answerData.caseNumber))
+    childDiv.appendChild(document.createTextNode(' / '))
+    childDiv.appendChild(document.createTextNode(formatDate(answerData.date)))
+    childDiv.appendChild(document.createElement('br'))
+    childDiv.appendChild(small)
+    container.appendChild(childDiv)
+
+    // show
+    container.style.display = ''
+}
+
 // 하단 영역 토글
 function controlChildContent() {
     const el = summaryDiv
@@ -139,7 +184,7 @@ function replaceBlankText(text) {
 }
 
 // loading
-function loading(isStart) {
+function loadingTemp(isStart) {
     const bodyEl = document.getElementsByTagName('body')[0]
 
     if(isStart) {
@@ -167,4 +212,48 @@ function loading(isStart) {
         maskEl?.remove()
     }
 }
- 
+
+function loading(isStart) {
+    if(isStart) {
+        loadingStart()
+    } else {
+        loadingClose()
+    }
+}
+
+function loadingStart() {
+    // 마스크 요소 생성
+    const mask = document.createElement('div');
+    mask.id = 'loadingMask';
+    mask.style.position = 'fixed';
+    mask.style.top = '0';
+    mask.style.left = '0';
+    mask.style.width = '100%';
+    mask.style.height = '100%';
+    mask.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // 반투명한 배경색
+    mask.style.zIndex = '9999'; // 가장 위에 표시
+
+    // 로딩 이미지 요소 생성
+    const loadingImage = document.createElement('img');
+    loadingImage.src = '/static/images/loading.gif'; // loading.gif의 경로에 맞게 수정
+    loadingImage.style.position = 'absolute';
+    loadingImage.style.top = '50%';
+    loadingImage.style.left = '50%';
+    loadingImage.style.transform = 'translate(-50%, -50%)';
+
+    // 마스크와 로딩 이미지를 body에 추가
+    document.body.appendChild(mask);
+    document.body.appendChild(loadingImage);
+}
+
+function loadingClose() {
+    // 마스크와 로딩 이미지를 제거
+    const mask = document.getElementById('loadingMask');
+    if (mask) {
+        mask.parentNode.removeChild(mask);
+    }
+    const loadingImage = document.querySelector('img[src="/static/images/loading.gif"]');
+    if (loadingImage) {
+        loadingImage.parentNode.removeChild(loadingImage);
+    }
+}
